@@ -1,15 +1,19 @@
 import csv
 import json
-from exceptions import CoinExceptionAPI
+from exceptions import NotMatchingFileFormats
 from os import path
 
 
 class ToFile:
-    def __init__(self, data_format, closePriceList, file_name):
+    def __init__(self, data_format, close_price_list, file_name):
         self.file_name = file_name
         self.closePriceList = [
-            {"date": close_price_dict["time_open"][:-10], "price": round(close_price_dict["close"], 2)}
-            for close_price_dict in closePriceList]
+            {
+                "date": close_price_dict["time_open"][:-10],
+                "price": round(close_price_dict["close"], 2),
+            }
+            for close_price_dict in close_price_list
+        ]
         self.data_format = data_format
         self._file_name_check()
         self._check_if_file_exists()
@@ -27,7 +31,7 @@ class ToFile:
                 pass
 
             elif split_string[1].upper() == "CSV" or split_string[1].upper() == "JSON":
-                CoinExceptionAPI({"type": "File_formats_not_match"}).handle()
+                raise NotMatchingFileFormats()
             else:
                 print("Warning! You provided bad format in file_name, get rid of it.")
                 self.file_name = split_string[0] + "." + self.data_format
@@ -36,11 +40,11 @@ class ToFile:
 
     def _export_json(self):
 
-        with open(self.file_name, 'w') as outfile:
+        with open(self.file_name, "w") as outfile:
             json.dump(self.closePriceList, outfile)
 
     def _export_csv(self):
-        with open(self.file_name, 'w', newline='') as output_file:
+        with open(self.file_name, "w", newline="") as output_file:
             dict_writer = csv.DictWriter(output_file, self.closePriceList[0].keys())
             dict_writer.writeheader()
             dict_writer.writerows(self.closePriceList)
@@ -51,8 +55,11 @@ class ToFile:
 
         while True:
             if not path.isfile(self.file_name):
-                if i!=1:
-                    print("File named like that, already exists. We change it to ", self.file_name)
+                if i != 1:
+                    print(
+                        "File named like that, already exists. We change it to ",
+                        self.file_name,
+                    )
                 break
             self.file_name = split_string[0] + "_" + str(i) + "." + split_string[1]
             i += 1

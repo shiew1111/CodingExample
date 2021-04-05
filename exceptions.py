@@ -1,20 +1,49 @@
-class CoinExceptionAPI(Exception):
-    def __init__(self, exceptionDict):
-        self._exceptionType = exceptionDict
+class Error(Exception):
+    """Base class for exceptions in this module."""
 
-    def handle(self):
-        if self._exceptionType["type"] == "Bad_coin_id":
-            print("We couldn't find coin named ", self._exceptionType["additional_info"], ". Please check coin name. ")
-            raise SystemExit(1)
-        elif self._exceptionType["type"] == "Dates_out_of_range":
-            print("You entered dates from the future. Please provide the appropriate dates.")
-            raise SystemExit(1)
-        elif self._exceptionType["type"] == "ZeroDivisionError_AveragePriceByMonth":
-            print("AveragePriceByMonth was used with bad date. end-date shouldn't be like 2021-03-01.")
-            raise SystemExit(1)
-        elif self._exceptionType["type"] == "File_formats_not_match":
-            print("You provided different file formats in file_name and format.")
-            raise SystemExit(1)
-        elif self._exceptionType["type"] == "Invalid_date_format":
-            print("Expects a valid date format. Examples: 2021-03 or 2021-03-01 ")
-            raise SystemExit(1)
+    pass
+
+
+class BadCoinIdError(Error):
+    """Exception raised for errors caused by unknown coin id. """
+
+    def __init__(self, expression):
+        self.expression = expression
+        print(
+            "We couldn't find coin named ",
+            self.expression,
+            ". Please check coin name. ",
+        )
+
+
+class DatesOutOfRange(Error):
+    """Exception raised for errors caused by providing dates from future. """
+
+    def __init__(self):
+        print(
+            "You entered dates from the future. Please provide the appropriate dates."
+        )
+
+
+class DividingByZeroError(Error):
+    """Exception raised for errors caused by trying to divide by 0, it may occur if somehow you will pass end_date with
+    first day of month to average_price_month.py."""
+
+    def __init__(self):
+        print(
+            "AveragePriceByMonth was used with bad date. end-date shouldn't be like 2021-03-01."
+        )
+
+
+class NotMatchingFileFormats(Error):
+    """Exception raised for errors caused by not matching provided format with format in provided file name. """
+
+    def __init__(self):
+        print("You provided different file formats in file_name and format.")
+
+
+class InvalidDateFormat(Error):
+    """Exception raised for errors caused by providing invalid date formats. """
+
+    def __init__(self):
+        print("Expects a valid date format. Examples: 2021-03 or 2021-03-01 ")

@@ -1,6 +1,13 @@
-from peewee import SqliteDatabase, Model, TextField, AutoField, DateTimeField, FloatField
+from peewee import (
+    SqliteDatabase,
+    Model,
+    TextField,
+    AutoField,
+    DateTimeField,
+    FloatField,
+)
 
-DATABASE = 'CoinsDatabase.db'
+DATABASE = "CoinsDatabase.db"
 
 db = SqliteDatabase(DATABASE)
 
