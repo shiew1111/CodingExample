@@ -59,7 +59,7 @@ Date      Average price ($)
 ## Export data for given period in one of selected format csv or json
 
 ### Example input
-`python script.py export --start-date=2021-01-01 --end-date=2021-01-03 --format=csv --file=exported_data.csv`
+`python ui.py export --start-date=2021-01-01 --end-date=2021-01-03 --format=csv --file=exported_data.csv`
 ### CSV structure
 
 it uses `,` as a delimiter (structure below is separated by spaces for better visual representation)
