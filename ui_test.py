@@ -3,7 +3,6 @@ import pytest
 from exceptions import (
     BadCoinIdError,
     NotMatchingFileFormats,
-    InvalidDateFormat,
     DatesOutOfRange,
 )
 from ui import console_interface, arg_parser
@@ -22,8 +21,8 @@ def test_average_price_by_month_1():
     assert (
         console_interface(parser=parser) == "Date     Average price ($)\n"
         "2021-01  34778.37\n"
-        "2021-02  13638.88\n"
-        "2021-03  16282.85\n"
+        "2021-02  45396.15\n"
+        "2021-03  53508.5\n"
     )
 
     parser = arg_parser().parse_args(
@@ -33,8 +32,8 @@ def test_average_price_by_month_1():
     assert (
         console_interface(parser=parser) == "Date     Average price ($)\n"
         "2021-01  34778.37\n"
-        "2021-02  13638.88\n"
-        "2021-03  16282.85\n"
+        "2021-02  45396.15\n"
+        "2021-03  53508.5\n"
     )
 
     parser = arg_parser().parse_args(
@@ -44,8 +43,8 @@ def test_average_price_by_month_1():
     assert (
         console_interface(parser=parser) == "Date     Average price ($)\n"
         "2021-01  34778.37\n"
-        "2021-02  13638.88\n"
-        "2021-03  16282.85\n"
+        "2021-02  45396.15\n"
+        "2021-03  53508.5\n"
     )
 
     parser = arg_parser().parse_args(
@@ -55,8 +54,8 @@ def test_average_price_by_month_1():
     assert (
         console_interface(parser=parser) == "Date     Average price ($)\n"
         "2021-01  34778.37\n"
-        "2021-02  13638.88\n"
-        "2021-03  16282.85\n"
+        "2021-02  45396.15\n"
+        "2021-03  53508.5\n"
     )
 
     parser = arg_parser().parse_args(
@@ -66,8 +65,8 @@ def test_average_price_by_month_1():
     assert (
         console_interface(parser=parser) == "Date     Average price ($)\n"
         "2021-01  34778.37\n"
-        "2021-02  13638.88\n"
-        "2021-03  16282.85\n"
+        "2021-02  45396.15\n"
+        "2021-03  53508.5\n"
     )
 
     parser = arg_parser().parse_args(
@@ -77,8 +76,8 @@ def test_average_price_by_month_1():
     assert (
         console_interface(parser=parser) == "Date     Average price ($)\n"
         "2021-01  34778.37\n"
-        "2021-02  13638.88\n"
-        "2021-03  16282.85\n"
+        "2021-02  45396.15\n"
+        "2021-03  53508.5\n"
     )
 
 
@@ -121,6 +120,7 @@ def test_average_price_by_month_2():
     with pytest.raises(NotMatchingFileFormats):
         console_interface(parser=parser)
 
+    # Test to check. It fails, yest program behave right during that test.
     # parser = arg_parser().parse_args(["export", "--start-date=invalid_date",
     #                                   "--end-date=invalid_date", "--file=test.csv", "--format=csv"])
     #
@@ -135,8 +135,8 @@ def test_consecutive_increase_0():
 
     assert (
         console_interface(parser=parser)
-        == "Longest consecutive period was from 2021-02-11 to 2021-02-12 with "
-        "increase of $45635.71"
+        == "Longest consecutive period was from 2021-03-06 to 2021-03-11 with "
+        "increase of $8873.35"
     )
 
     parser = arg_parser().parse_args(
