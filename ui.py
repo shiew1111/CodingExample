@@ -122,5 +122,5 @@ if __name__ == "__main__":
         raise SystemExit(1)
     except NotMatchingFileFormats:
         raise SystemExit(1)
-    except InvalidDateFormat():
+    except InvalidDateFormat:
         raise SystemExit(1)
