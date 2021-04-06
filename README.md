@@ -1,3 +1,8 @@
+contact:
+69910464
+Marek.Demkowicz@wp.pl
+
+
 # Specification
 API DOCS: https://api.coinpaprika.com
 
