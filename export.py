@@ -12,8 +12,8 @@ class ToFile:
         self.file_name = file_name
         self.closePriceList = [
             {
-                "date": close_price_dict["time_open"][:-10],
-                "price": round(close_price_dict["close"], 2),
+                "date": close_price_dict.time_open[:-10],
+                "price": round(close_price_dict.close, 2),
             }
             for close_price_dict in close_price_list
         ]

@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+from data_classes import DateRange
 
 
 class DataPresenceCheck:
@@ -22,7 +23,7 @@ class DataPresenceCheck:
         return [
             date
             for date in self._date_list()
-            if date not in [dbDate["time_open"] for dbDate in self._dataFromDB]
+            if date not in [dbDate.time_open for dbDate in self._dataFromDB]
         ]
 
     def get_range_list(self):
@@ -39,31 +40,35 @@ class DataPresenceCheck:
                         date_list[i - 1], "%Y-%m-%dT%H:%M:%SZ"
                     ) + timedelta(days=1):
                         if firstException:
+
                             range_date_list.append(
-                                {"startDate": date_list[0], "endDate": date_list[i - 1]}
+                                DateRange(
+                                    startDate=date_list[0], endDate=date_list[i - 1]
+                                )
                             )
                             firstException = False
                             y = i
 
                         else:
                             range_date_list.append(
-                                {"startDate": date_list[y], "endDate": date_list[i - 1]}
+                                DateRange(
+                                    startDate=date_list[y], endDate=date_list[i - 1]
+                                )
                             )
                             y = i
                     elif i == len(date_list) - 1:
                         range_date_list.append(
-                            {"startDate": date_list[y], "endDate": date_list[i]}
+                            DateRange(startDate=date_list[y], endDate=date_list[i])
                         )
             else:
                 range_date_list.append(
-                    {"startDate": date_list[0], "endDate": date_list[0]}
+                    DateRange(startDate=date_list[0], endDate=date_list[0])
                 )
 
             range_date_list = [
-                {
-                    "startDate": range_dict["startDate"][:10],
-                    "endDate": range_dict["endDate"][:10],
-                }
+                DateRange(
+                    startDate=range_dict.startDate[:10], endDate=range_dict.endDate[:10]
+                )
                 for range_dict in range_date_list
             ]
         return range_date_list

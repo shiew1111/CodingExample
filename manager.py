@@ -20,25 +20,25 @@ class Manager:
 
     def _time_price_dict_list(self, onlyMonth: bool = False):
         # named tuple zrobić
-        check_dates = DatesChecker(
+        check_dates_range = DatesChecker(
             startDate=self._start_date, endDate=self._end_date, onlyMonth=onlyMonth
         ).check()
-        self._start_date = check_dates["startDate"]
-        self._end_date = check_dates["endDate"]
+        self._start_date = check_dates_range.startDate
+        self._end_date = check_dates_range.endDate
         time_price_from_DB = self._coin_database.get(
             self._coin, startDate=self._start_date, endDate=self._end_date
         )
         range_date_list = DataPresenceCheck(
-            startDate=check_dates["startDate"],
-            endDate=check_dates["endDate"],
+            startDate=check_dates_range.startDate,
+            endDate=check_dates_range.endDate,
             dataFromDB=time_price_from_DB,
         ).get_range_list()
         if range_date_list:
             for data_range in range_date_list:
                 from_api = CoinPaprikaRequest(
                     self._coin,
-                    startDate=data_range["startDate"],
-                    endDate=data_range["endDate"],
+                    startDate=data_range.startDate,
+                    endDate=data_range.endDate,
                 ).get()
 
                 self._coin_database.insert(coinName=self._coin, dataSource=from_api)
@@ -52,9 +52,9 @@ class Manager:
             self._time_price_dict_list(onlyMonth=False)
         ).get_longest()
         return "Longest consecutive period was from {0} to {1} with increase of ${2}".format(
-            Longest_price_increasing["date_from"][:-10],
-            Longest_price_increasing["date_till"][:-10],
-            round(Longest_price_increasing["price_increase"], 2),
+            Longest_price_increasing.date_from[:-10],
+            Longest_price_increasing.date_till[:-10],
+            round(Longest_price_increasing.price_increase, 2),
         )
 
     def average_price_by_month(self):

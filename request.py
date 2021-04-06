@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from coinpaprika import client as Coinpaprika
 
+from data_classes import DateRange, DayPrice
 from exceptions import BadCoinIdError
 
 
@@ -29,35 +30,37 @@ class CoinPaprikaRequest:
             - (datetime.strptime(self._startDate, "%Y-%m-%d"))
             + timedelta(days=1)
         ) <= timedelta(days=334):
-            date_range_list = [{"endDate": self._endDate, "startDate": self._startDate}]
+            date_range_list = [
+                DateRange(startDate=self._startDate, endDate=self._endDate)
+            ]
             return date_range_list
         date_range_list.append(
-            {
-                "endDate": datetime.strptime(self._startDate, "%Y-%m-%d")
+            DateRange(
+                startDate=datetime.strptime(self._startDate, "%Y-%m-%d")
                 + timedelta(days=365),
-                "startDate": datetime.strptime(self._startDate, "%Y-%m-%d"),
-            }
+                endDate=datetime.strptime(self._startDate, "%Y-%m-%d"),
+            )
         )
         for date_dict in date_range_list:
 
             if (
                 datetime.strptime(self._endDate, "%Y-%m-%d")
-                - (date_dict["endDate"] + timedelta(days=1))
+                - (date_dict.endDate + timedelta(days=1))
             ) > timedelta(days=0):
                 date_range_list.append(
-                    {
-                        "endDate": date_dict["endDate"] + timedelta(days=365),
-                        "startDate": date_dict["endDate"] + timedelta(days=1),
-                    }
+                    DateRange(
+                        startDate=date_dict.endDate + timedelta(days=365),
+                        endDate=date_dict.endDate + timedelta(days=1),
+                    )
                 )
         date_range_list = [
-            {
-                "startDate": datetime.strftime(dictOfDates["startDate"], "%Y-%m-%d"),
-                "endDate": datetime.strftime(dictOfDates["endDate"], "%Y-%m-%d"),
-            }
+            DateRange(
+                startDate=datetime.strftime(dictOfDates.startDate, "%Y-%m-%d"),
+                endDate=datetime.strftime(dictOfDates.endDate, "%Y-%m-%d"),
+            )
             for dictOfDates in date_range_list
         ]
-        date_range_list[-1]["endDate"] = self._endDate
+        date_range_list[-1].endDate = self._endDate
         return date_range_list
 
     def _bad_start_date_handle(self):
@@ -74,10 +77,10 @@ class CoinPaprikaRequest:
             close_price_list = [
                 self._dict_time_and_close_extract(candle_dict)
                 for candle_dict in self._client.candles(
-                    self._coin, start=dateDict["startDate"], end=dateDict["endDate"]
+                    self._coin, start=str(dateDict.startDate), end=str(dateDict.endDate)
                 )
             ]
-            if not close_price_list:
+            if not close_price_list or None:
                 return self._bad_start_date_handle()
             else:
                 return close_price_list
@@ -98,4 +101,4 @@ class CoinPaprikaRequest:
 
     @staticmethod
     def _dict_time_and_close_extract(candle_dict):
-        return {"time_open": candle_dict["time_open"], "close": candle_dict["close"]}
+        return DayPrice(time_open=candle_dict["time_open"], close=candle_dict["close"])

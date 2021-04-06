@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from data_classes import DateRange
 from exceptions import DatesOutOfRange
 
 
@@ -48,7 +49,7 @@ class DatesChecker:
             self._date_max_check(dateFormat="%Y-%m-%d")
 
     def check(self):
-        return {"startDate": self._startDate, "endDate": self._endDate}
+        return DateRange(startDate=self._startDate, endDate=self._endDate)
 
     # Check if end date is not higher than present, if it is, than present become end-date
     def _date_max_check(self, dateFormat):

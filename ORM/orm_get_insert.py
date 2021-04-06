@@ -3,6 +3,7 @@ from datetime import datetime
 from peewee import chunked
 
 from ORM.orm_model import PriceAndDate, db
+from data_classes import DatabaseRow
 
 
 class CoinsDatabase:
@@ -11,16 +12,17 @@ class CoinsDatabase:
 
     @db.connection_context()
     def __init__(self):
-        db.create_tables([PriceAndDate])
+        db.create_tables([PriceAndDate], safe=True)
 
     @staticmethod
     @db.connection_context()
     def get(coin, startDate, endDate):
         return [
-            {
-                "time_open": datetime.strftime(row["time_open"], "%Y-%m-%dT%H:%M:%SZ"),
-                "close": row["close"],
-            }
+            DatabaseRow(
+                time_open=datetime.strftime(row["time_open"], "%Y-%m-%dT%H:%M:%SZ"),
+                close=row["close"],
+                coin=coin,
+            )
             for row in PriceAndDate.select(PriceAndDate.time_open, PriceAndDate.close)
             .where(
                 PriceAndDate.time_open >= datetime.strptime(startDate, "%Y-%m-%d"),
@@ -40,9 +42,9 @@ class CoinsDatabase:
                     {
                         "coin": coinName,
                         "time_open": datetime.strptime(
-                            row["time_open"], "%Y-%m-%dT%H:%M:%SZ"
+                            row.time_open, "%Y-%m-%dT%H:%M:%SZ"
                         ),
-                        "close": row["close"],
+                        "close": row.close,
                     }
                     for row in dataSource
                 ],
