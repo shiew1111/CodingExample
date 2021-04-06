@@ -2,6 +2,9 @@ from exceptions import DividingByZeroError
 
 
 class AveragePriceByMonth:
+    """It calculate average price by month. It takes list of dictionary's [ {'time_open': str', 'close': float}].
+    Example output:  {'2021-01': float, '2021-02': float, '2021-03': float}"""
+
     def __init__(self, closePriceList: list):
         self._close_price_list = closePriceList
         self._time_open_trim()
@@ -44,5 +47,4 @@ class AveragePriceByMonth:
                 except ZeroDivisionError:
                     raise DividingByZeroError()
             previous_time_open = self._close_price_list[priceDict]["time_open"]
-
         return average_price_dict

@@ -4,6 +4,12 @@ from exceptions import DatesOutOfRange
 
 
 class DatesChecker:
+    """Extensive validation of user-entered dates. Depending on your needs, it will return the dates containing days
+    or just year and month. It can take, datetime object's or string's like "2021-01-01" or "2021-03". Also it checks
+    if start date isn't newer than end date, and if end date is not out of range. If user will enter date without
+    day's. And we will pass onlyMonth=False, it will return start date with first day of provided month and end date
+    with last day of provided month."""
+
     def __init__(self, startDate, endDate, onlyMonth=False):
         self._onlyMonth = onlyMonth
         self._startDate = startDate

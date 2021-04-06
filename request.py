@@ -6,6 +6,9 @@ from exceptions import BadCoinIdError
 
 
 class CoinPaprikaRequest:
+    """It's responsible for requesting data from API. Because API max response is 366 rows(days), it provided max
+    batch size and request data in few requests if needed."""
+
     def __init__(self, coin, startDate, endDate):
         self._endDate = endDate
         self._startDate = startDate

@@ -5,6 +5,9 @@ from os import path
 
 
 class ToFile:
+    """It's responsible for creating json or csv files. It checks if there is already file with same
+    name, if yes, it will create new file with added number at end of file name."""
+
     def __init__(self, data_format, close_price_list, file_name):
         self.file_name = file_name
         self.closePriceList = [

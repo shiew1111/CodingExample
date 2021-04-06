@@ -2,6 +2,10 @@ from datetime import datetime
 
 
 class ConsecutiveIncreasing:
+    """It finds longest price increase. It takes list of dictionary's [ {'time_open': str', 'close': float}].
+    Example output: {'date_from': str, 'date_till': str, 'price_increase': float}
+    """
+
     def __init__(self, closePriceList: list):
 
         self._close_price_list = closePriceList

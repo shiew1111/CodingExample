@@ -8,6 +8,8 @@ from request import CoinPaprikaRequest
 
 
 class Manager:
+    """ It takes all valid arguments, provided by user, and pass further. """
+
     def __init__(self, coin, end_date, start_date, file_name, data_format):
         self._data_format = data_format
         self._file_name = file_name

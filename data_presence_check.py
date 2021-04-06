@@ -2,7 +2,8 @@ from datetime import timedelta, datetime
 
 
 class DataPresenceCheck:
-    """Jedno czy dwa slowa"""
+    """It's responsible for checking, if data from database covers date range provided by user. If not it return list
+    of date range's needed to be covered."""
 
     def __init__(self, startDate, endDate, dataFromDB):
         self._dataFromDB = dataFromDB

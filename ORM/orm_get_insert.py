@@ -6,6 +6,9 @@ from ORM.orm_model import PriceAndDate, db
 
 
 class CoinsDatabase:
+    """It, contains get() and insert() method's, which are responsible for selecting, and inserting data from sqlite database.
+    It's build on Peewee framework."""
+
     @db.connection_context()
     def __init__(self):
         db.create_tables([PriceAndDate])
