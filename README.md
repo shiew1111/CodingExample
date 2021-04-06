@@ -72,7 +72,7 @@ Date         Price
 ```
 
 
-`python script.py --start-date=2021-01-01 --end-date=2021-01-03 --export --format=json --file=exported_data.json`
+`python ui.py export --start-date=2021-01-01 --end-date=2021-01-03  --format=json --file=exported_data.json`
 
 ### Json structure
 ```json
